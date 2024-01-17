@@ -40,6 +40,9 @@ def faster_rccn(freeze=False,trainable_backbone_layers=3,number_of_classes=5):
 from torchvision.models.detection import fasterrcnn_resnet50_fpn
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor 
 
+
+
+
 # def get_object_detection_model(num_classes = 5, 
     #                            feature_extraction = True):
     # """
