@@ -42,37 +42,4 @@ def faster_rccn(freeze=False,trainable_backbone_layers=3,number_of_classes=6):
     
     
     
-    
-    
-
-# from torchvision.models.detection import fasterrcnn_resnet50_fpn
-# from torchvision.models.detection.faster_rcnn import FastRCNNPredictor 
-
-
-
-
-# def get_object_detection_model(num_classes = 5, 
-    #                            feature_extraction = True):
-    # """
-    # Inputs
-    #     num_classes: int
-    #         Number of classes to predict. Must include the 
-    #         background which is class 0 by definition!
-    #     feature_extraction: bool
-    #         Flag indicating whether to freeze the pre-trained 
-    #         weights. If set to True the pre-trained weights will be  
-    #         frozen and not be updated during.
-    # Returns
-    #     model: FasterRCNN
-    # """
-    # # Load the pretrained faster r-cnn model.
-    # model = fasterrcnn_resnet50_fpn(pretrained = True)    # If True, the pre-trained weights will be frozen.
-    # if feature_extraction == True:
-    #     for p in model.parameters():
-    #         p.requires_grad = False    # Replace the original 91 class top layer with a new layer
-    # # tailored for num_classes.
-    # in_feats = model.roi_heads.box_predictor.cls_score.in_features
-    # model.roi_heads.box_predictor = FastRCNNPredictor(in_feats,
-    #                                                num_classes)    
-    
-    # return model
+ 
