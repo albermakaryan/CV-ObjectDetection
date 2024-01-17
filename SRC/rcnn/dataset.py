@@ -101,11 +101,13 @@ class RCNN_Dataset(Dataset):
         bbox = torch.tensor([[bbox[0]*width_ratio,bbox[1]*height_ratio,\
                             (bbox[0]+bbox[2])*width_ratio,(bbox[1]+bbox[3])*height_ratio] for bbox in annotations['bbox']])
 
-        target['boxes'] = bbox
        
         
         target = {}
         target['labels'] = torch.tensor(annotations['label'])
+        
+        target['boxes'] = bbox
+
         
 
 
