@@ -51,6 +51,8 @@ optimizer = torch.optim.Adam(model.parameters(),lr=0.001)
 
 epochs = 30
 
+model_save_path = 'saved_models/rcnn_'+str(epochs)+ ' _epoch_trained.pth'
+
 torch.cuda.empty_cache()
 
 train_rccn(model=model,optimizer=optimizer,
@@ -60,4 +62,4 @@ train_rccn(model=model,optimizer=optimizer,
            epochs=epochs)
 
 
-torch.save(model,'saved_models/rcnn_30_epoch_trained.pth')
+torch.save(model,model_save_path)
