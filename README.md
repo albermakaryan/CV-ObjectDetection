@@ -2,5 +2,10 @@
 
 ### 1. Project structure
 
-### 1. Data preparation 
+---------------------
+
+### 2. Data preparation 
 Data is downloded from [Roboflow](https://universe.roboflow.com/spark-intelligence-scqhh/bottle-defect-detection) with COCO format.
+
+
+### 3. ----------------
