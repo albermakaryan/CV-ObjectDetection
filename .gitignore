@@ -1,0 +1,4 @@
+rcnn/__paycache__/*
+helper_functions/__pycache__/*
+*.pth
+*.ipynb_checkpoints
