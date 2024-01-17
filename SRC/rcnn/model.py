@@ -1,9 +1,9 @@
 from torchvision.models.detection import fasterrcnn_resnet50_fpn_v2
 from torchvision.models.detection import FasterRCNN_ResNet50_FPN_V2_Weights
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
+from icecream import ic
 
-
-def faster_rccn(freeze=False,trainable_backbone_layers=3,number_of_classes=5):
+def faster_rccn(freeze=False,trainable_backbone_layers=3,number_of_classes=6):
 
     """
     Returns custom R-CNN model
@@ -25,6 +25,9 @@ def faster_rccn(freeze=False,trainable_backbone_layers=3,number_of_classes=5):
     in_feats = model.roi_heads.box_predictor.cls_score.in_features
     model.roi_heads.box_predictor = FastRCNNPredictor(in_feats,
                                                    number_of_classes)
+    
+    # ic(in_feats)
+    # quit()
 
     # freeze all layers
     if not freeze:
@@ -37,8 +40,13 @@ def faster_rccn(freeze=False,trainable_backbone_layers=3,number_of_classes=5):
 
     return model
     
-from torchvision.models.detection import fasterrcnn_resnet50_fpn
-from torchvision.models.detection.faster_rcnn import FastRCNNPredictor 
+    
+    
+    
+    
+
+# from torchvision.models.detection import fasterrcnn_resnet50_fpn
+# from torchvision.models.detection.faster_rcnn import FastRCNNPredictor 
 
 
 

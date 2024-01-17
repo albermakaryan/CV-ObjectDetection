@@ -20,7 +20,7 @@ TEST_ROOT = "../DATA/Data/test"
 ANNOTAION_PATH = "../DATA/Data_COCO/annotations.coco.json"
 
 
-batch_size = 1
+batch_size = 2
 
 
 train_set = RCNN_Dataset(image_directory=TRAIN_ROOT,annotation_file_path=ANNOTAION_PATH)
@@ -32,6 +32,7 @@ validation_dataloader = DataLoader(dataset=validation_set,batch_size=batch_size,
 
 
 # for i,batch in enumerate(train_dataloader):
+#     ic(batch)
 #     X,Y = batch
 
 #     ic(X)
@@ -43,6 +44,7 @@ validation_dataloader = DataLoader(dataset=validation_set,batch_size=batch_size,
 
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+# device = 'cpu'
 
 model = faster_rccn()
 # model = get_object_detection_model()
@@ -52,9 +54,12 @@ optimizer = torch.optim.Adam(model.parameters(),lr=0.001)
 
 epochs = 30
 
-model_save_path = 'saved_models/rcnn_'+str(epochs)+ ' _epoch_trained.pth'
+mode_save_root = 'saved_models'
+if not os.path.exists(mode_save_root):
+    os.mkdir(mode_save_root)
+    
+model_save_path = os.path.join(mode_save_root,'rcnn_'+str(epochs)+ '_epoch_trained.pth')
 
-os.makedirs(model_save_path,exist_ok=True)
 
 torch.cuda.empty_cache()
 

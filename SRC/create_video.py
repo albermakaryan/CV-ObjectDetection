@@ -26,7 +26,7 @@ test_dataset = RCNN_Dataset(image_directory=TEST_ROOT, annotation_file_path=ANNO
 test_dataloader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True, collate_fn=collate_fn)
 
 # Load the model (ensure the model class is available in the code or imported properly)
-model = torch.load('saved_models/rcnn_30_epoch_trained.pth')
+model = torch.load('saved_models/rcnn_1_epoch_trained.pth')
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 model.to(device)
 model.eval()
@@ -51,16 +51,29 @@ for ind, batch in enumerate(test_dataloader):
     with torch.no_grad():
         predictions = model(X)
         
-    ic(predictions)
-    quit()
+    # ic(predictions)
+    # quit()
         
         
 
     # Iterate over each image in the batch
     for i in range(len(X)):
         
+        
+        image = test_dataset.files[i]
+        image_path = os.path.join(TEST_ROOT,image)
+        
+        # print(image)       
+        # print(i)
+        # continue
+        
       
         image = X[i].cpu().numpy().transpose((1, 2, 0))
+        image = image*255
+        image = image.astype('uint8')
+        
+        # ic(image)
+        # quit()
         # Convert tensor to numpy array and make a copy
         
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)  # Convert RGB to BGR for OpenCV
@@ -88,11 +101,6 @@ for ind, batch in enumerate(test_dataloader):
             
             start_point, end_point = (x1, y1), (x2, y2)
 
-            
-            
-            ic(image,start_point,end_point)
-            ic(start_point, end_point)
-
             try:
                 class_name = classe_names[label.item()]
             except KeyError:
@@ -104,22 +112,24 @@ for ind, batch in enumerate(test_dataloader):
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
         frames.append(image)
+    # 
+# quit()
+
+
+# valid_frames = []
+# for frame in frames:
     
+#     if frame.shape[0] == 640 and frame.shape[1] == 640:
+#         valid_frames.append(frame)
 
 
-
-valid_frames = []
-for frame in frames:
+# valid_frames = torch.tensor(valid_frames,dtype=torch.uint8)
     
-    if frame.shape[0] == 640 and frame.shape[1] == 640:
-        valid_frames.append(frame)
-
-
-valid_frames = torch.tensor(valid_frames,dtype=torch.uint8)
     
+frames = torch.tensor(frames,dtype=torch.uint8)
 
 # Define the output video file path
 output_file = 'output_video.mp4'
 
 # Write the frames to the video file
-write_video(output_file, valid_frames, fps=1,video_codec='h264')
+write_video(output_file, frames, fps=1,video_codec='h264')

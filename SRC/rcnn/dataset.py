@@ -41,7 +41,7 @@ class RCNN_Dataset(Dataset):
         self.files = os.listdir(self.image_directory)
         self.annotation_file_path = annotation_file_path
         
-        self.annotations = []
+        # self.annotations = []
 
 
         # self.images_id_file_path = {}
@@ -104,6 +104,7 @@ class RCNN_Dataset(Dataset):
        
         
         target = {}
+        
         target['labels'] = torch.tensor(annotations['label'])
         
         target['boxes'] = bbox
