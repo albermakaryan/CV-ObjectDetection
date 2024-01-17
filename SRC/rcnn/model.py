@@ -17,19 +17,14 @@ def faster_rccn(freeze=False,trainable_backbone_layers=3,number_of_classes=6):
         how many layers' weigths set trainable from the end
     """
 
-    model = fasterrcnn_resnet50_fpn_v2(weights = FasterRCNN_ResNet50_FPN_V2_Weights.DEFAULT,
-                                   trainable_backbone_layers=trainable_backbone_layers)
-    
+    model = fasterrcnn_resnet50_fpn_v2(weights = FasterRCNN_ResNet50_FPN_V2_Weights.DEFAULT)    
 
     
     in_feats = model.roi_heads.box_predictor.cls_score.in_features
     model.roi_heads.box_predictor = FastRCNNPredictor(in_feats,
                                                    number_of_classes)
     
-    # ic(in_feats)
-    # quit()
 
-    # freeze all layers
     if not freeze:
         for name, param in model.named_parameters():
             if trainable_backbone_layers > 0 and "backbone" in name:

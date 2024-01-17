@@ -5,6 +5,11 @@ def predict(image,model_path=None,model=None):
     
     model = torch.load(model_path) if model is None else model
     
+    model.eval()
+    prediction = model(image)
+    
+    return prediction
+    
     
     
     

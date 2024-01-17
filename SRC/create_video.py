@@ -26,7 +26,7 @@ test_dataset = RCNN_Dataset(image_directory=TEST_ROOT, annotation_file_path=ANNO
 test_dataloader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True, collate_fn=collate_fn)
 
 # Load the model (ensure the model class is available in the code or imported properly)
-model = torch.load('saved_models/rcnn_1_epoch_trained.pth')
+model = torch.load('trained_models/rcnn_1_epoch_trained.pth')
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 model.to(device)
 model.eval()
@@ -60,17 +60,22 @@ for ind, batch in enumerate(test_dataloader):
     for i in range(len(X)):
         
         
-        image = test_dataset.files[i]
-        image_path = os.path.join(TEST_ROOT,image)
         
-        # print(image)       
-        # print(i)
-        # continue
+        old_height,old_width = int(Y[i]['old_height']),int(Y[i]['old_width'])
+        new_height,new_width = int(Y[i]['new_height']),int(Y[i]['new_width'])
+        
+        
+        size = 640
+        width_ratio = 640/new_width
+        height_ratio = 640/new_height
+ 
+
         
       
-        image = X[i].cpu().numpy().transpose((1, 2, 0))
-        image = image*255
-        image = image.astype('uint8')
+        image = X[i].cpu().numpy().reshape(new_width,new_height,3)*255
+        image = cv2.resize(image, (size,size))
+        # image = image.astype(int)
+        # image = image*255
         
         # ic(image)
         # quit()
@@ -86,34 +91,40 @@ for ind, batch in enumerate(test_dataloader):
         
         prediction = [predictions[i][key].cpu().numpy()[:5] for key in ['boxes', 'scores', 'labels']]
 
+        image = image.astype(int)
+        image = cv2.UMat(image)
         # Draw bounding boxes on the image
         for box, score, label in zip(*prediction):
             
+
+            x1, y1, x2, y2 = box
+            x1,x2 = int(x1*width_ratio),int(x2*width_ratio)
+            y1,y2 = int(y1*height_ratio),int(y2*height_ratio)
             
-            # ic(box,score,label)
+            
+            start_point, end_point = (x1, y1), (x2, y2) 
+            
+            # ic(start_point,end_point)
+            # ic(image)
             # quit()
-            
-            x1, y1, x2, y2 = box.astype(int)  # Convert box coordinates to integers
-            
-            # start_point, end_point = (x1*width, y1*height), (x2*width, y2*height)
-            
-            
-            
-            start_point, end_point = (x1, y1), (x2, y2)
 
             try:
                 class_name = classe_names[label.item()]
             except KeyError:
                 print(f"Error: Class label {label.item()} not found in classe_names dictionary.")
                 continue
+            
+            # ic(image.shape)
+            # ic(start_point,end_point)
 
-            image = cv2.rectangle(image, start_point, end_point, color=(0, 255, 0), thickness=2)
+
+            image = cv2.rectangle(image, start_point, end_point, color=(0, 250, 0), thickness=2)
             image = cv2.putText(image, f'{class_name} : {score:.2f}', (x1, y1 - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
-        frames.append(image)
+
+        frames.append(cv2.UMat.get((image)))
     # 
-# quit()
 
 
 # valid_frames = []

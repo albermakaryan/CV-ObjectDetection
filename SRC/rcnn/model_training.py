@@ -21,7 +21,8 @@ def train_model(batch_size=4,lerning_rate=0.001,epochs=30,mode_save_root='traine
                 TRAIN_ROOT = "../DATA/Data/train",
                 VALIDATION_ROOT = "../DATA/Data/validation",
                 ANNOTAION_PATH = "../DATA/Data_COCO/annotations.coco.json",
-                model=None):
+                model=None,
+                trainable_backbone_layers=3):
     
 
 
@@ -37,7 +38,7 @@ def train_model(batch_size=4,lerning_rate=0.001,epochs=30,mode_save_root='traine
 
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-    model = faster_rccn() if model is None else model
+    model = faster_rccn(trainable_backbone_layers=trainable_backbone_layers) if model is None else model
 
     optimizer = torch.optim.Adam(model.parameters(),lr=lerning_rate) if optimizer is None else optimizer
 

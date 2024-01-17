@@ -114,9 +114,10 @@ class RCNN_Dataset(Dataset):
 
 
         
-        target['height'] = torch.tensor(new_height)
-        target['width'] = torch.tensor(new_width)
-        
+        target['old_height'] = torch.tensor(old_height)
+        target['old_width'] = torch.tensor(old_width)
+        target['new_height'] = torch.tensor(new_height)
+        target['new_width'] = torch.tensor(new_width)
 
         
     
