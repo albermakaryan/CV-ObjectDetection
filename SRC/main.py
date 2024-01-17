@@ -3,6 +3,7 @@ from torch.utils.data import DataLoader
 
 import sys
 sys.path.append('./rcnn')
+import os
 
 from rcnn.train import train_rccn
 from rcnn.model import faster_rccn
@@ -52,6 +53,8 @@ optimizer = torch.optim.Adam(model.parameters(),lr=0.001)
 epochs = 30
 
 model_save_path = 'saved_models/rcnn_'+str(epochs)+ ' _epoch_trained.pth'
+
+os.makedirs(model_save_path,exist_ok=True)
 
 torch.cuda.empty_cache()
 
