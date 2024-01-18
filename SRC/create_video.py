@@ -9,7 +9,10 @@ import os
 from icecream import ic
 from rcnn.predict import predict_all
 
-# ... existing code ...
+"""
+Create a video from the predictions.
+
+"""
 
 with open("../DATA/Data_COCO/annotations.coco.json") as f:
     annotations = json.load(f)
@@ -55,7 +58,6 @@ for ind, batch in enumerate(test_dataloader):
     if len(predictions) == 0:
         continue
 
-    # Iterate over each image in the batch
     for i in range(len(X)):
         
         
@@ -76,15 +78,14 @@ for ind, batch in enumerate(test_dataloader):
         image = cv2.resize(image, (size,size))
 
         
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)  # Convert RGB to BGR for OpenCV
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)  
 
-        height, width, _ = image.shape  # Get image height and width
+        height, width, _ = image.shape  
 
         
 
         image = image.astype(int)
         image = cv2.UMat(image)
-        # Draw bounding boxes on the image
         for box, score, label in zip(*prediction):
             
 
@@ -95,9 +96,7 @@ for ind, batch in enumerate(test_dataloader):
             
             start_point, end_point = (x1, y1), (x2, y2) 
             
-            # ic(start_point,end_point)
-            # ic(image)
-            # quit()
+
 
             try:
                 class_name = classe_names[label.item()]
@@ -105,8 +104,6 @@ for ind, batch in enumerate(test_dataloader):
                 print(f"Error: Class label {label.item()} not found in classe_names dictionary.")
                 continue
             
-            # ic(image.shape)
-            # ic(start_point,end_point)
 
 
             image = cv2.rectangle(image, start_point, end_point, color=(0, 250, 0), thickness=2)
@@ -118,20 +115,8 @@ for ind, batch in enumerate(test_dataloader):
     # 
 
 
-# valid_frames = []
-# for frame in frames:
-    
-#     if frame.shape[0] == 640 and frame.shape[1] == 640:
-#         valid_frames.append(frame)
-
-
-# valid_frames = torch.tensor(valid_frames,dtype=torch.uint8)
-    
-    
 frames = torch.tensor(frames,dtype=torch.uint8)
 
-# Define the output video file path
 output_file = 'output_video.mp4'
 
-# Write the frames to the video file
 write_video(output_file, frames, fps=1,video_codec='h264')

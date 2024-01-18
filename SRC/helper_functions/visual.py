@@ -10,21 +10,30 @@ import os
 
 
 
-ANNOTATION_PATH = "../../DATA/Data_COCO/annotations.coco.json"
-IMAGE_PATH = "../../DATA/Data_COCO/images"
+
 
 def show_images(annotation_file_path,image_root,number_of_images=12,image_file_names=None):
-        
+
         """
-        Show the image.
+        Shows images with bounding boxes and labels. 
+        If no image file names are given, it shows random images from the image root.
         
-        Parameters:
-        -----------
-        image: PIL.Image
-            The image to be shown.
-        
+        Parameters
+        ----------
+        annotation_file_path: str
+            Path to the annotation file
+        image_root: str
+            Path to the image folder
+        number_of_images: int
+            Number of images to show
+        image_file_names: list
+            List of image file names to show
+            
+            
+        Returns
+        -------
+        None
         """
-        
         
         if len(image_file_names) == 0:
             
@@ -75,5 +84,8 @@ def show_images(annotation_file_path,image_root,number_of_images=12,image_file_n
         
         
 if __name__ == "__main__":
+    
+    ANNOTATION_PATH = "../../DATA/Data_COCO/annotations.coco.json"
+    IMAGE_PATH = "../../DATA/Data_COCO/images"
     
     show_images(annotation_file_path=ANNOTATION_PATH,number_of_images=1)
