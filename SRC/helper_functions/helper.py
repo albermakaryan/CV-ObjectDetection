@@ -39,7 +39,9 @@ def annotation_extractor(image_file_name,
         
         annotations = json.load(f)
         
-            
+        
+ 
+
 
     if model == 'rcnn':
         
