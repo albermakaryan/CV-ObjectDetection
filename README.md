@@ -71,4 +71,3 @@ The model is trained 300 epochs with a batch size of 2 and a learning rate of 0.
 
 
 
-### 3. ----------------
