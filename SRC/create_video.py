@@ -7,6 +7,7 @@ import cv2
 import json
 import os
 from icecream import ic
+from rcnn.predict import predict_all
 
 # ... existing code ...
 
@@ -26,7 +27,7 @@ test_dataset = RCNN_Dataset(image_directory=TEST_ROOT, annotation_file_path=ANNO
 test_dataloader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True, collate_fn=collate_fn)
 
 # Load the model (ensure the model class is available in the code or imported properly)
-model = torch.load('trained_models/rcnn_1_epoch_trained.pth')
+model = torch.load('trained_models/rcnn_300_epoch_trained.pth')
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 model.to(device)
 model.eval()
@@ -47,17 +48,18 @@ for ind, batch in enumerate(test_dataloader):
     X = [x.to(device) for x in X]
     Y = [{k: v.to(device) for k, v in y.items()} for y in Y]
 
-    # Perform inference and get predictions
-    with torch.no_grad():
-        predictions = model(X)
+
         
-    # ic(predictions)
-    # quit()
-        
-        
+    predictions = predict_all(device,model=model,batch=batch,threshold=0.3)
+    
+    if len(predictions) == 0:
+        continue
 
     # Iterate over each image in the batch
     for i in range(len(X)):
+        
+        
+        prediction = predictions[i]
         
         
         
@@ -69,27 +71,16 @@ for ind, batch in enumerate(test_dataloader):
         width_ratio = 640/new_width
         height_ratio = 640/new_height
  
-
-        
       
         image = X[i].cpu().numpy().reshape(new_width,new_height,3)*255
         image = cv2.resize(image, (size,size))
-        # image = image.astype(int)
-        # image = image*255
-        
-        # ic(image)
-        # quit()
-        # Convert tensor to numpy array and make a copy
+
         
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)  # Convert RGB to BGR for OpenCV
 
         height, width, _ = image.shape  # Get image height and width
 
-        # ic(predictions)
-        # quit()
-        # boxes, scores, labeles
         
-        prediction = [predictions[i][key].cpu().numpy()[:5] for key in ['boxes', 'scores', 'labels']]
 
         image = image.astype(int)
         image = cv2.UMat(image)
