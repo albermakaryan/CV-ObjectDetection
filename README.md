@@ -37,7 +37,6 @@ The model is trained 300 epochs with a batch size of 2 and a learning rate of 0.
         .data.yaml.swp
     SRC
     
-        readme.py
         main.py
         data_preparation.py
         create_video.py
