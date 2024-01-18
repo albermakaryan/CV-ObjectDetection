@@ -1,10 +1,10 @@
 # Computer Vision: Object Detection
 ## About the project
 
-In this project, is used data from [Roboflow](https://universe.roboflow.com/spark-intelligence-scqhh/bottle-defect-detection) (COCO format).
+In this project, is used data from [Roboflow](https://universe.roboflow.com/spark-intelligence-scqhh/bottle-defect-detection) (COCO format)
 to fine-tune a Faster R-CNN model from torchvision.
 
-The aim of these project is to train model, which will predict bottle which are with no label, no cap and crumbled.
+The aim of these project is to train model, which will predict bottles which are with no label, no cap and crumbled.
 The model is trained 300 epochs with a batch size of 2 and a learning rate of 0.001.
 
 ### 1. Project structure
@@ -70,5 +70,7 @@ The model is trained 300 epochs with a batch size of 2 and a learning rate of 0.
 
 
 
+### Output
 
-### 3. ----------------
+<video width="640" height="640" src="output_video.mp4"></video>
+
