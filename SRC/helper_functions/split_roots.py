@@ -7,6 +7,32 @@ import boto3
 def split(source_root,dest_root,train_size=0.8,validation_size=0.1,random_seed=123,
           working_directory=None): 
     
+    """
+    
+    Splits images from source root into three parts and saves each for given directory.
+    Test size is calculated as 1 - train_size - validation_size.
+    
+    Parameters
+    
+    source_root: str
+        Path to the source directory
+    dest_root: str
+        Path to the destination directory
+    train_size: float
+        Size of the train set
+    validation_size: float
+        Size of the validation set
+    random_seed: int
+        Random seed
+    working_directory: str
+        Path to the working directory
+        
+    Returns
+    -------
+    None
+    
+    """
+    
     
     
     

@@ -2,9 +2,7 @@ from torch.utils.data import Dataset
 from torchvision.transforms import Compose, ToTensor, Normalize, Resize, \
         RandomHorizontalFlip, RandomVerticalFlip, RandomRotation
 import os
-import sys
 from icecream import ic
-import PIL
 import torch
 import matplotlib.pyplot as plt
 import cv2
@@ -21,31 +19,35 @@ from helper_functions.helper import annotation_extractor
 
 class RCNN_Dataset(Dataset):
     
+    
+    """
+    Custom dataset for RCNN.
+    
+    """
+    
     def __init__(self,image_directory,annotation_file_path,transform=None):
         
+
+        
         """
-        Initialize the RCNN_Dataset class object.
+        Initializes the dataset.
         
         Parameters:
         -----------
         image_directory: str
-            The directory where the images are stored.
+            Path to the image directory
         annotation_file_path: str
-            The path to the annotation file.
-        transform: torchvision.transforms
-            The transforms to be applied to the images.
+            Path to the annotation file
+        transform: torchvision.transforms.Compose
+            Transformations to be applied to the images.
             
-        """
         
+        """
         self.image_directory = image_directory
         self.files = os.listdir(self.image_directory)
         self.annotation_file_path = annotation_file_path
         
-        # self.annotations = []
 
-
-        # self.images_id_file_path = {}
-        
         if transform is None:
                 self.transform = Compose([ToTensor(),
                                       Resize((224,224)),
@@ -61,14 +63,23 @@ class RCNN_Dataset(Dataset):
         
     def __getitem__(self, index):
         
-        
+
         """
-        This method is used to get the image at the given index.
+        Returns the image and the target for the given index, with the given transformations and target format. 
+        
         
         Parameters:
         -----------
         index: int
-            The index of the image to be retrieved.
+            Index of the image to be returned.
+            
+        Returns:
+        --------
+        image: torch.tensor
+            Image tensor
+        target: dict
+            Dictionary containing the target information.
+        
         
         """
         
@@ -81,11 +92,9 @@ class RCNN_Dataset(Dataset):
         image = cv2.resize(image,(224,224))/255
      
         image.shape = (3,224,224)
-        # image = image.transpose((2, 0, 1))
         image = torch.as_tensor(image, dtype=torch.float32)
      
-        # image = PIL.Image.open(file_path)
-        # image = self.transform(image)
+
         
         annotations = annotation_extractor(image_file_name=img,
                                            annotation_file_path=self.annotation_file_path)
@@ -127,10 +136,16 @@ class RCNN_Dataset(Dataset):
 
     
     def __len__(self):
+        
+        """
+        Returns the length of the dataset.
+        """
         return len(self.files)
     
     
 if __name__ == "__main__":
+    
+    # test if the dataset works properly
     
     ANNOTATION_PATH = "../../DATA/Data_COCO/annotations.coco.json"
     IMAGE_PATH = "../../DATA/Data_COCO/images"

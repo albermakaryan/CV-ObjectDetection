@@ -6,17 +6,25 @@ from icecream import ic
 def faster_rccn(freeze=False,trainable_backbone_layers=3,number_of_classes=6):
 
     """
-    Returns custom R-CNN model
-
-    --------------------------
-
-    freeze:
-        whether freeze layers or not
+    Returns the model.
     
-    trainable_backbone_layers:
-        how many layers' weigths set trainable from the end
+    Parameters
+    ----------
+    freeze: bool
+        If True, freezes the backbone layers
+    trainable_backbone_layers: int
+        Number of trainable backbone layers
+    number_of_classes: int
+        Number of classes
+        
+    Returns
+    -------
+    model: torchvision.models.detection.faster_rcnn.FasterRCNN
+        Faster RCNN model
+    
     """
-
+    
+    
     model = fasterrcnn_resnet50_fpn_v2(weights = FasterRCNN_ResNet50_FPN_V2_Weights.DEFAULT)    
 
     

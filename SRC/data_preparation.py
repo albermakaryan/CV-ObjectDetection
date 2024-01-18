@@ -1,5 +1,7 @@
 
-
+"""
+Splits images from source root into three parts and saves each for given directory.
+"""
 
 if __name__ == "__main__":
     

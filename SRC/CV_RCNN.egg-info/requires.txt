@@ -1,8 +1,0 @@
-boto3
-icecream
-matplotlib
-opencv-python
-pillow
-torch
-torchvision
-ultralytics

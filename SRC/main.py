@@ -1,4 +1,9 @@
 
+"""
+Train the model
+
+"""
+
 if __name__ == "__main__":
     
     from rcnn.model_training import train_model
